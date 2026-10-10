@@ -1,5 +1,5 @@
 ﻿import { describe, expect, it } from "vitest";
-import { extensionForMime, mimeForCapturedFile } from "../src/camera/recorder";
+import { captureKindForFile, extensionForMime, mimeForCapturedFile } from "../src/camera/recorder";
 import { isCameraAccessBlocked } from "../src/errors";
 import { parseSettings } from "../src/settings";
 
@@ -24,6 +24,14 @@ describe("camera-app captures", () => {
 	it("falls back to sensible defaults", () => {
 		expect(mimeForCapturedFile("1234", "", "photo")).toBe("image/jpeg");
 		expect(mimeForCapturedFile("1234", "", "video")).toBe("video/mp4");
+	});
+
+	it("detects photo vs video for gallery picks", () => {
+		expect(captureKindForFile("a.bin", "video/mp4")).toBe("video");
+		expect(captureKindForFile("a.mp4", "image/jpeg")).toBe("photo");
+		expect(captureKindForFile("clip.MOV", "")).toBe("video");
+		expect(captureKindForFile("IMG_1.jpg", "")).toBe("photo");
+		expect(captureKindForFile("unknown", "")).toBe("photo");
 	});
 
 	it("maps camera-app formats to extensions", () => {

@@ -31,7 +31,7 @@ export default class LensPlugin extends Plugin {
 
 		this.addCommand({
 			id: "open-camera-app",
-			name: "Capture with phone camera app",
+			name: "Add photos or videos (camera app or gallery)",
 			icon: "smartphone",
 			checkCallback: (checking) => {
 				if (!Platform.isAndroidApp) return false;

@@ -75,6 +75,13 @@ export function mimeForCapturedFile(name: string, type: string, kind: "photo" | 
 	return MIME_BY_EXTENSION[ext] ?? (kind === "photo" ? "image/jpeg" : "video/mp4");
 }
 
+/** Whether a picked file is a video or a photo, using its mime type or, failing that, its extension. */
+export function captureKindForFile(name: string, type: string): "photo" | "video" {
+	if (type.startsWith("video/")) return "video";
+	if (type.startsWith("image/")) return "photo";
+	return mimeForCapturedFile(name, "", "photo").startsWith("video/") ? "video" : "photo";
+}
+
 export function formatDuration(totalSeconds: number): string {
 	const s = Math.max(0, Math.floor(totalSeconds));
 	const h = Math.floor(s / 3600);

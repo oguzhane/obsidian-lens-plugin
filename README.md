@@ -18,9 +18,10 @@ current note. The camera stays open, so you can capture several in a row.
 | Mode | How it works |
 |---|---|
 | **Phone camera app** | Opens your camera app for each photo or video. Works on every Android device; uses your camera app's own zoom, flash, focus and video features. |
+| **Gallery (multi-select)** | Pick several existing photos and videos at once. They're copied into the capture folder and embedded in the order you picked them, named after the date they were taken. |
 | **In-app camera** | A full-screen camera inside Obsidian with the controls below. Requires Obsidian to have camera permission. |
 
-Choose a mode in **Settings → Lens → Camera**. You can also run **Lens: Capture with phone camera app** directly.
+Choose a mode in **Settings → Lens → Camera**. You can also run **Lens: Add photos or videos (camera app or gallery)** directly.
 
 ## Features (in-app camera)
 
@@ -63,7 +64,8 @@ If the note isn't open in editing mode, the embed is added to the end of the not
 2. Tap the **camera** ribbon icon, or run **Lens: Open camera**.
    - Tip: add *Lens: Open camera* to the editor toolbar under **Settings → Mobile → Manage toolbar options** for one-tap access.
 3. **Camera app mode:** tap **Take photo** or **Record video**, capture in your camera app and confirm (✓). The capture is
-   embedded, and you can take more. Tap **Done** when finished.
+   embedded, and you can take more. Tap **Choose from gallery** to select several photos and videos at once (long-press to
+   multi-select in the picker). Tap **Done** when finished.
 4. **In-app camera mode:** choose **Photo** or **Video**, then press the shutter. Close the camera with ✕ or the Android back button.
 
 If the note is open in editing mode, the embed goes at the cursor; otherwise it's added to the end of the note.
