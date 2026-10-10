@@ -1,7 +1,12 @@
 export type FacingMode = "environment" | "user";
 export type VideoResolution = "720p" | "1080p";
+/** auto: try the in-app camera, fall back to the phone's camera app if Obsidian can't access the camera. */
+export type CameraMode = "auto" | "inApp" | "system";
 
 export interface LensSettings {
+	cameraMode: CameraMode;
+	/** Set automatically in auto mode once the in-app camera was found to be blocked on this device. */
+	inAppBlocked: boolean;
 	/** Folder (relative to the note's folder) that captures are saved in. `{{noteName}}` is replaced; a leading `/` makes it vault-absolute. */
 	folderPattern: string;
 	/** JPEG quality for photos, 0.5 – 1. */
@@ -19,6 +24,8 @@ export interface LensSettings {
 export const DEFAULT_FOLDER_PATTERN = "{{noteName}}.assets";
 
 export const DEFAULT_SETTINGS: LensSettings = {
+	cameraMode: "auto",
+	inAppBlocked: false,
 	folderPattern: DEFAULT_FOLDER_PATTERN,
 	jpegQuality: 0.9,
 	videoResolution: "1080p",
@@ -42,6 +49,8 @@ export function parseSettings(raw: unknown): LensSettings {
 	const data = isObject(raw) ? raw : {};
 	const d = DEFAULT_SETTINGS;
 	return {
+		cameraMode: data.cameraMode === "inApp" || data.cameraMode === "system" || data.cameraMode === "auto" ? data.cameraMode : d.cameraMode,
+		inAppBlocked: typeof data.inAppBlocked === "boolean" ? data.inAppBlocked : d.inAppBlocked,
 		folderPattern:
 			typeof data.folderPattern === "string" && data.folderPattern.trim() !== ""
 				? data.folderPattern.trim()

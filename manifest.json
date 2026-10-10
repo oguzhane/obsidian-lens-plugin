@@ -3,7 +3,7 @@
 	"name": "Lens",
 	"version": "0.1.0",
 	"minAppVersion": "1.4.0",
-	"description": "In-app camera for Android: take photos and record videos with zoom, flash and focus, and embed them straight into the current note.",
+	"description": "Take photos and record videos on Android and embed them straight into the current note, using your camera app or an in-app camera with zoom, flash and focus.",
 	"author": "oguzhane",
 	"authorUrl": "https://github.com/oguzhane",
 	"isDesktopOnly": false

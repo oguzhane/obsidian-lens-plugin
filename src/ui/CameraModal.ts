@@ -15,6 +15,10 @@ export interface CameraModalDeps {
 	getSettings(): LensSettings;
 	store: MediaStore;
 	target: NoteTarget;
+	/** Called when the camera can't be opened. Return true if it was handled (e.g. by switching to the camera app). */
+	onCameraUnavailable?(err: unknown): boolean;
+	/** Offered as a button on the error screen. */
+	onUseSystemCamera?(): void;
 	onClosed?(): void;
 }
 
@@ -225,8 +229,16 @@ export class CameraModal extends Modal {
 			for (const step of info.steps) list.createEl("li", { text: step });
 		}
 		const actions = card.createDiv({ cls: "lens-error-actions" });
+		if (this.deps.onUseSystemCamera) {
+			const useApp = actions.createEl("button", { cls: "mod-cta", text: "Use camera app" });
+			useApp.onclick = () => {
+				const cb = this.deps.onUseSystemCamera;
+				this.close();
+				cb?.();
+			};
+		}
 		if (info.retryable) {
-			const retry = actions.createEl("button", { cls: "mod-cta", text: "Try again" });
+			const retry = actions.createEl("button", { cls: this.deps.onUseSystemCamera ? "" : "mod-cta", text: "Try again" });
 			retry.onclick = () => void this.startCamera();
 		}
 		const close = actions.createEl("button", { text: "Close" });
@@ -268,6 +280,7 @@ export class CameraModal extends Modal {
 		} catch (err) {
 			if (this.closed) return;
 			console.error("Lens: failed to start camera", err);
+			if (this.deps.onCameraUnavailable?.(err)) return;
 			this.showError(describeCameraError(err, "camera"));
 		}
 	}

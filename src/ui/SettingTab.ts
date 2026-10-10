@@ -1,6 +1,6 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
 import type LensPlugin from "../main";
-import { DEFAULT_SETTINGS, FacingMode, VideoResolution } from "../settings";
+import { DEFAULT_SETTINGS, FacingMode, LensSettings, VideoResolution } from "../settings";
 import { resolveFolderPath } from "../storage/naming";
 
 export class LensSettingTab extends PluginSettingTab {
@@ -12,6 +12,23 @@ export class LensSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 		const s = this.plugin.settings;
+
+		new Setting(containerEl)
+			.setName("Camera")
+			.setDesc(
+				"Obsidian for Android currently can't give plugins direct camera access, so the in-app camera may be blocked. " +
+					"Automatic tries it once and then uses your phone's camera app (which has its own zoom, flash and video controls).",
+			)
+			.addDropdown((dd) =>
+				dd
+					.addOptions({ auto: "Automatic", system: "Phone camera app", inApp: "In-app camera only" })
+					.setValue(s.cameraMode)
+					.onChange(async (value) => {
+						s.cameraMode = value as LensSettings["cameraMode"];
+						s.inAppBlocked = false;
+						await this.plugin.saveSettings();
+					}),
+			);
 
 		new Setting(containerEl).setName("Storage").setHeading();
 
@@ -37,7 +54,7 @@ export class LensSettingTab extends PluginSettingTab {
 		};
 		updateExample();
 
-		new Setting(containerEl).setName("Photos").setHeading();
+		new Setting(containerEl).setName("In-app camera: photos").setHeading();
 
 		new Setting(containerEl)
 			.setName("JPEG quality")
@@ -63,7 +80,7 @@ export class LensSettingTab extends PluginSettingTab {
 				}),
 			);
 
-		new Setting(containerEl).setName("Video").setHeading();
+		new Setting(containerEl).setName("In-app camera: video").setHeading();
 
 		new Setting(containerEl)
 			.setName("Resolution")
@@ -103,7 +120,7 @@ export class LensSettingTab extends PluginSettingTab {
 					});
 			});
 
-		new Setting(containerEl).setName("Camera").setHeading();
+		new Setting(containerEl).setName("In-app camera: lens").setHeading();
 
 		new Setting(containerEl)
 			.setName("Default camera")

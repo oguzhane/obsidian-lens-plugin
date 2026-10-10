@@ -24,6 +24,13 @@ function mediaDevicesAvailable(): boolean {
 	return typeof navigator !== "undefined" && typeof navigator.mediaDevices?.getUserMedia === "function";
 }
 
+/** True when the error means plugins can't use the camera at all (permission missing/denied or API absent). */
+export function isCameraAccessBlocked(err: unknown): boolean {
+	const name = errorName(err);
+	if (["NotAllowedError", "PermissionDeniedError", "SecurityError", "UnsupportedError"].includes(name)) return true;
+	return !mediaDevicesAvailable();
+}
+
 /** Maps getUserMedia / MediaRecorder failures to user-facing guidance. */
 export function describeCameraError(err: unknown, kind: DeviceKind = "camera"): CameraErrorInfo {
 	const name = errorName(err);
@@ -43,6 +50,9 @@ export function describeCameraError(err: unknown, kind: DeviceKind = "camera"): 
 						? "Set Camera to \"Allow only while using the app\" (and Microphone too, for video sound)."
 						: "Set Microphone to \"Allow only while using the app\".",
 					"Come back to Obsidian and tap Try again. If it still fails, fully close and reopen Obsidian.",
+					...(kind === "camera"
+						? ["If Camera isn't listed there, this Obsidian version can't give plugins camera access — tap \"Use camera app\" instead."]
+						: []),
 				],
 				retryable: true,
 			};

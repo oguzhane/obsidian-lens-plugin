@@ -6,7 +6,23 @@ current note. The camera stays open, so you can capture several in a row.
 
 > **Platform:** Obsidian for **Android** only. The commands are hidden on desktop and iOS.
 
-## Features
+> **Camera access on Android:** the Obsidian Android app currently doesn't hold Android's *Camera* permission,
+> so plugins can't use the camera directly (Camera won't appear under Obsidian's app permissions).
+> In **Automatic** mode (the default), Lens notices this the first time and switches to your **phone's camera app**.
+> You still tap one button, take the photo or video with your normal camera (zoom, flash, focus and lens switching included),
+> and it's saved and embedded in your note. If a future Obsidian version grants camera access, the in-app camera below
+> works automatically. Use *Try in-app camera* in the capture sheet to check again.
+
+## Capture modes
+
+| Mode | How it works |
+|---|---|
+| **Phone camera app** | Opens your camera app for each photo or video. Works on every Android device; uses your camera app's own zoom, flash, focus and video features. |
+| **In-app camera** | A full-screen camera inside Obsidian with the controls below. Requires Obsidian to have camera permission. |
+
+Choose a mode in **Settings → Lens → Camera**. You can also run **Lens: Capture with phone camera app** directly.
+
+## Features (in-app camera)
 
 - 📷 **Photo** — full-resolution stills via the camera's photo mode when the device supports it, otherwise a frame from the live preview. Saved as JPEG with adjustable quality.
 - 🎥 **Video** — saved as MP4 when your Android System WebView can record it, otherwise WebM. Shows a recording timer and can stop automatically after a maximum length.
@@ -46,10 +62,11 @@ If the note isn't open in editing mode, the embed is added to the end of the not
 1. Open a note.
 2. Tap the **camera** ribbon icon, or run **Lens: Open camera**.
    - Tip: add *Lens: Open camera* to the editor toolbar under **Settings → Mobile → Manage toolbar options** for one-tap access.
-3. Choose **Photo** or **Video**, then press the shutter. Close the camera with ✕ or the Android back button.
+3. **Camera app mode:** tap **Take photo** or **Record video**, capture in your camera app and confirm (✓). The capture is
+   embedded, and you can take more. Tap **Done** when finished.
+4. **In-app camera mode:** choose **Photo** or **Video**, then press the shutter. Close the camera with ✕ or the Android back button.
 
-The first time, Android asks for camera (and microphone) permission. If you denied it earlier, the plugin
-explains how to turn it back on: **Android Settings → Apps → Obsidian → Permissions**.
+If the note is open in editing mode, the embed goes at the cursor; otherwise it's added to the end of the note.
 
 ### Troubleshooting
 
@@ -64,6 +81,7 @@ Run **Lens: Show camera diagnostics**. It briefly opens each camera and shows wh
 
 | Setting | Default |
 |---|---|
+| Camera | Automatic |
 | Capture folder | `{{noteName}}.assets` |
 | JPEG quality | 0.9 |
 | Full-resolution photos | On |
@@ -113,7 +131,8 @@ src/
   storage/MediaStore.ts      folder creation, unique names, save + embed
   storage/NoteTarget.ts      inserts at the cursor or appends to the note
   storage/naming.ts          path and name helpers
-  ui/CameraModal.ts          full-screen camera UI
+  ui/CameraModal.ts          full-screen in-app camera UI
+  ui/SystemCaptureModal.ts   capture through the phone's camera app (file input + capture)
   ui/DiagnosticsModal.ts     device capability report
   ui/SettingTab.ts           settings tab
 tests/                       Vitest unit tests (Obsidian API mocked)

@@ -30,16 +30,49 @@ export function extensionForMime(mime: string): string {
 			return "webm";
 		case "video/x-matroska":
 			return "mkv";
+		case "video/quicktime":
+			return "mov";
+		case "video/3gpp":
+			return "3gp";
 		case "image/png":
 			return "png";
 		case "image/webp":
 			return "webp";
+		case "image/heic":
+			return "heic";
+		case "image/heif":
+			return "heif";
 		case "image/jpeg":
 		case "image/jpg":
 			return "jpg";
 		default:
 			return base.startsWith("video/") ? "webm" : "jpg";
 	}
+}
+
+const MIME_BY_EXTENSION: Record<string, string> = {
+	jpg: "image/jpeg",
+	jpeg: "image/jpeg",
+	png: "image/png",
+	webp: "image/webp",
+	heic: "image/heic",
+	heif: "image/heif",
+	mp4: "video/mp4",
+	m4v: "video/mp4",
+	webm: "video/webm",
+	mkv: "video/x-matroska",
+	mov: "video/quicktime",
+	"3gp": "video/3gpp",
+};
+
+/**
+ * Mime type for a file returned by the system camera. Android content providers
+ * sometimes omit `type`, so fall back to the file name, then to a sensible default.
+ */
+export function mimeForCapturedFile(name: string, type: string, kind: "photo" | "video"): string {
+	if (type && type !== "application/octet-stream") return type;
+	const ext = name.includes(".") ? name.slice(name.lastIndexOf(".") + 1).toLowerCase() : "";
+	return MIME_BY_EXTENSION[ext] ?? (kind === "photo" ? "image/jpeg" : "video/mp4");
 }
 
 export function formatDuration(totalSeconds: number): string {

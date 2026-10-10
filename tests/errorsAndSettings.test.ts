@@ -55,6 +55,8 @@ describe("settings parsing", () => {
 			maxVideoSeconds: 90.6,
 		});
 		expect(s).toEqual({
+			cameraMode: "auto",
+			inAppBlocked: false,
 			folderPattern: "media",
 			jpegQuality: 1,
 			videoResolution: DEFAULT_SETTINGS.videoResolution,
