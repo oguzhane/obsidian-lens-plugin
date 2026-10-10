@@ -1,0 +1,28 @@
+{
+	"name": "obsidian-lens-plugin",
+	"version": "0.1.0",
+	"description": "In-app camera for Obsidian Android: capture photos and videos and embed them in the current note.",
+	"main": "main.js",
+	"type": "module",
+	"scripts": {
+		"dev": "node esbuild.config.mjs",
+		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+		"typecheck": "tsc -noEmit -skipLibCheck",
+		"test": "vitest run",
+		"version": "node version-bump.mjs && git add manifest.json versions.json"
+	},
+	"keywords": [
+		"obsidian",
+		"camera",
+		"android"
+	],
+	"license": "MIT",
+	"devDependencies": {
+		"@types/node": "^22.0.0",
+		"esbuild": "^0.25.0",
+		"obsidian": "latest",
+		"tslib": "^2.8.0",
+		"typescript": "^5.6.0",
+		"vitest": "^3.0.0"
+	}
+}

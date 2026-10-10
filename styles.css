@@ -1,0 +1,392 @@
+/* ---------- Full-screen camera modal ---------- */
+
+.modal-container.lens-modal-container .modal-bg {
+	background-color: #000;
+	opacity: 1 !important;
+}
+
+.modal.lens-modal {
+	width: 100vw;
+	height: 100vh;
+	height: 100dvh;
+	max-width: none;
+	max-height: none;
+	padding: 0;
+	margin: 0;
+	border: none;
+	border-radius: 0;
+	background-color: #000;
+	color: #fff;
+	overflow: hidden;
+}
+
+.modal.lens-modal .modal-close-button,
+.modal.lens-modal .modal-header,
+.modal.lens-modal .modal-title {
+	display: none;
+}
+
+.modal.lens-modal .modal-content {
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+.lens-root {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: none;
+}
+
+.lens-viewport {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	background-color: #000;
+}
+
+.lens-video {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	transform-origin: center center;
+}
+
+.lens-status {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: rgba(255, 255, 255, 0.8);
+	font-size: var(--font-ui-medium);
+}
+
+/* ---------- Buttons ---------- */
+
+.lens-root button {
+	-webkit-tap-highlight-color: transparent;
+	box-shadow: none;
+}
+
+.lens-icon-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	border: none;
+	border-radius: 50%;
+	background-color: rgba(0, 0, 0, 0.35);
+	color: #fff;
+}
+
+.lens-icon-btn svg {
+	width: 22px;
+	height: 22px;
+}
+
+.lens-icon-btn.is-active {
+	color: #ffd60a;
+}
+
+.lens-icon-btn.is-off {
+	color: rgba(255, 255, 255, 0.55);
+}
+
+.lens-icon-btn:disabled {
+	opacity: 0.4;
+}
+
+/* Keeps its slot so the shutter stays centered. */
+.lens-icon-btn.is-hidden {
+	visibility: hidden;
+}
+
+/* ---------- Top bar ---------- */
+
+.lens-topbar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: calc(env(safe-area-inset-top, 0px) + 12px) 16px 12px;
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), transparent);
+	z-index: 2;
+}
+
+.lens-topbar-right {
+	display: flex;
+	gap: 8px;
+}
+
+.lens-timer {
+	padding: 4px 10px;
+	border-radius: 6px;
+	background-color: #e5332a;
+	color: #fff;
+	font-variant-numeric: tabular-nums;
+	font-weight: 600;
+}
+
+/* ---------- Bottom controls ---------- */
+
+.lens-bottom {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 12px;
+	padding: 24px 16px calc(env(safe-area-inset-bottom, 0px) + 20px);
+	background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
+	z-index: 2;
+}
+
+.lens-zoom {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	width: min(320px, 85%);
+}
+
+.lens-zoom-label {
+	min-width: 52px;
+	height: 32px;
+	padding: 0 8px;
+	border: none;
+	border-radius: 16px;
+	background-color: rgba(0, 0, 0, 0.5);
+	color: #ffd60a;
+	font-size: var(--font-ui-small);
+	font-variant-numeric: tabular-nums;
+}
+
+.lens-zoom-slider {
+	flex: 1;
+	accent-color: #ffd60a;
+}
+
+.lens-modes {
+	display: flex;
+	gap: 8px;
+}
+
+.lens-mode {
+	padding: 4px 14px;
+	border: none;
+	border-radius: 14px;
+	background: transparent;
+	color: rgba(255, 255, 255, 0.75);
+	font-size: var(--font-ui-small);
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.lens-mode.is-active {
+	background-color: rgba(255, 255, 255, 0.18);
+	color: #ffd60a;
+}
+
+.lens-mode:disabled {
+	opacity: 0.4;
+}
+
+.lens-bottombar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: min(360px, 100%);
+}
+
+.lens-thumb {
+	position: relative;
+	width: 48px;
+	height: 48px;
+	border-radius: 10px;
+	border: 2px solid rgba(255, 255, 255, 0.8);
+	background-color: rgba(255, 255, 255, 0.08);
+}
+
+.lens-thumb-media {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	border-radius: 8px;
+}
+
+.lens-thumb-media img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.lens-count {
+	position: absolute;
+	top: -8px;
+	right: -8px;
+	min-width: 20px;
+	height: 20px;
+	padding: 0 5px;
+	border-radius: 10px;
+	background-color: #ffd60a;
+	color: #000;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 20px;
+	text-align: center;
+}
+
+/* ---------- Shutter ---------- */
+
+.lens-shutter {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 76px;
+	height: 76px;
+	padding: 0;
+	border: 4px solid #fff;
+	border-radius: 50%;
+	background: transparent;
+}
+
+.lens-shutter-inner {
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	background-color: #fff;
+	transition: all 0.2s ease;
+}
+
+.lens-shutter:active .lens-shutter-inner,
+.lens-shutter.is-busy .lens-shutter-inner {
+	transform: scale(0.88);
+}
+
+.lens-shutter:disabled {
+	opacity: 0.5;
+}
+
+.lens-root.is-video-mode .lens-shutter-inner {
+	background-color: #e5332a;
+}
+
+.lens-root.is-recording .lens-shutter-inner {
+	width: 30px;
+	height: 30px;
+	border-radius: 6px;
+}
+
+/* ---------- Focus ring & shutter flash ---------- */
+
+.lens-focus-ring {
+	position: absolute;
+	width: 72px;
+	height: 72px;
+	margin: -36px 0 0 -36px;
+	border: 2px solid #ffd60a;
+	border-radius: 8px;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.lens-focus-ring.is-visible {
+	animation: lens-focus 1.2s ease forwards;
+}
+
+@keyframes lens-focus {
+	0% { opacity: 1; transform: scale(1.4); }
+	25% { opacity: 1; transform: scale(1); }
+	80% { opacity: 1; }
+	100% { opacity: 0; }
+}
+
+.lens-shutter-flash {
+	position: absolute;
+	inset: 0;
+	background-color: #fff;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.lens-shutter-flash.is-active {
+	animation: lens-flash 0.25s ease-out;
+}
+
+@keyframes lens-flash {
+	0% { opacity: 0.8; }
+	100% { opacity: 0; }
+}
+
+/* ---------- Error overlay ---------- */
+
+.lens-error {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px;
+	background-color: rgba(0, 0, 0, 0.85);
+	z-index: 3;
+}
+
+.lens-error-card {
+	max-width: 420px;
+	padding: 20px;
+	border-radius: 12px;
+	background-color: var(--background-primary);
+	color: var(--text-normal);
+}
+
+.lens-error-card h3 {
+	margin-top: 0;
+}
+
+.lens-error-card ol {
+	padding-left: 1.4em;
+}
+
+.lens-error-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+	margin-top: 16px;
+}
+
+/* ---------- Diagnostics ---------- */
+
+.lens-diagnostics-output {
+	max-height: 50vh;
+	overflow: auto;
+	padding: 8px;
+	border-radius: 6px;
+	background-color: var(--background-secondary);
+	font-size: var(--font-ui-smaller);
+	white-space: pre-wrap;
+	word-break: break-all;
+	user-select: text;
+	-webkit-user-select: text;
+}
+
+.lens-diagnostics-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+	margin-top: 12px;
+}
