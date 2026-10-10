@@ -76,8 +76,10 @@ Run **Lens: Show camera diagnostics**. It briefly opens each camera and shows wh
 
 ### With BRAT (recommended while in beta)
 1. Install **Obsidian42 - BRAT** from Community plugins.
-2. In BRAT, choose *Add beta plugin* and enter this repository's GitHub URL.
-3. Enable **Lens** in Community plugins.
+2. In BRAT, choose *Add beta plugin* and enter `https://github.com/oguzhane/obsidian-lens-plugin`.
+   - If the repository is private, first create a GitHub personal access token with read access to it
+     (fine-grained: *Contents: Read-only*) and paste it into **BRAT settings → Personal GitHub access token**.
+3. Enable **Lens** in Community plugins. BRAT can also check for updates when you publish new releases.
 
 ### Manually
 Copy `main.js`, `manifest.json` and `styles.css` from a release into
@@ -119,8 +121,7 @@ tests/                       Vitest unit tests (Obsidian API mocked)
 
 ### Releasing
 1. `npm version patch|minor|major`. This bumps `manifest.json` and `versions.json`.
-2. `git push --follow-tags`. The GitHub Action builds the plugin and drafts a release with `main.js`, `manifest.json` and `styles.css`.
-3. Publish the draft release.
+2. `git push --follow-tags`. The GitHub Action runs the tests, builds the plugin and publishes a release with `main.js`, `manifest.json` and `styles.css`.
 
 ## License
 
