@@ -18,7 +18,7 @@ current note. The camera stays open, so you can capture several in a row.
 | Mode | How it works |
 |---|---|
 | **Phone camera app** | Opens your camera app for each photo or video. Works on every Android device; uses your camera app's own zoom, flash, focus and video features. |
-| **Gallery (multi-select)** | Pick several existing photos and videos at once. They're copied into the capture folder and embedded in the order you picked them, named after the date they were taken. |
+| **Gallery (multi-select)** | Pick several existing photos and videos at once. They're copied into the capture folder and embedded in the order you picked them, named after the date they were taken. **Browse files** does the same through Android's file browser. |
 | **In-app camera** | A full-screen camera inside Obsidian with the controls below. Requires Obsidian to have camera permission. |
 
 Choose a mode in **Settings → Lens → Camera**. You can also run **Lens: Add photos or videos (camera app or gallery)** directly.
@@ -76,6 +76,9 @@ Run **Lens: Show camera diagnostics**. It briefly opens each camera and shows wh
 (zoom, torch, focus, photo capture, video formats). Tap **Copy** to include the output in a bug report.
 
 - *Taking a photo is slow or fails:* turn off **Full-resolution photos**.
+- *"Android didn't let Obsidian read N files" when importing from the gallery:* Android's photo picker sometimes doesn't let
+  Obsidian read some of the selected items (the plugin already re-reads them right away and retries). Add those items with
+  **Browse files**, which uses Android's file browser and handles file access differently, or pick them one at a time.
 - *Video files are large:* lower **Resolution** to 720p or set a **Maximum video length**.
 - *"Camera not available":* update **Obsidian** and **Android System WebView** from the Play Store.
 

@@ -59,6 +59,13 @@ describe("MediaStore", () => {
 		await expect(store.saveAndEmbed(target, "photo", blob("image/jpeg"), "image/jpeg", date)).rejects.toThrow(/not a folder/);
 	});
 
+	it("accepts raw bytes read from picked files", async () => {
+		const { app, store, target } = setup();
+		const file = await store.saveAndEmbed(target, "video", new Uint8Array([7, 8]).buffer, "video/quicktime", date);
+		expect(file.path).toBe("Journal/Trip.assets/VID_20261010_083000.mov");
+		expect(new Uint8Array(app.vault.binaries.get(file.path)!)).toEqual(new Uint8Array([7, 8]));
+	});
+
 	it("honours a custom folder pattern", async () => {
 		const { store, target } = setup({ folderPattern: "/Media/{{noteName}}" });
 		const file = await store.saveAndEmbed(target, "photo", blob("image/jpeg"), "image/jpeg", date);

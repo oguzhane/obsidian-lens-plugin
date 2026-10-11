@@ -35,18 +35,20 @@ export class MediaStore {
 		}
 	}
 
-	/** Writes the blob to `<folder>/<IMG|VID>_<timestamp>.<ext>` and returns the new file. */
-	async save(notePath: string, kind: CaptureKind, blob: Blob, mime: string, date = new Date()): Promise<TFile> {
+	/** Writes the data to `<folder>/<IMG|VID>_<timestamp>.<ext>` and returns the new file. */
+	async save(notePath: string, kind: CaptureKind, data: Blob | ArrayBuffer, mime: string, date = new Date()): Promise<TFile> {
 		const folder = this.folderFor(notePath);
 		await this.ensureFolder(folder);
-		const ext = extensionForMime(mime || blob.type || (kind === "photo" ? "image/jpeg" : "video/webm"));
+		const blobType = data instanceof ArrayBuffer ? "" : data.type;
+		const ext = extensionForMime(mime || blobType || (kind === "photo" ? "image/jpeg" : "video/webm"));
 		const path = uniqueFilePath(folder, buildBaseName(kind, date), ext, (p) => !!this.app.vault.getAbstractFileByPath(p));
-		return this.app.vault.createBinary(path, await blob.arrayBuffer());
+		const bytes = data instanceof ArrayBuffer ? data : await data.arrayBuffer();
+		return this.app.vault.createBinary(path, bytes);
 	}
 
 	/** Saves the capture and inserts an embed (respecting the user's link-format settings) into the note. */
-	async saveAndEmbed(target: InsertTarget, kind: CaptureKind, blob: Blob, mime: string, date = new Date()): Promise<TFile> {
-		const file = await this.save(target.file.path, kind, blob, mime, date);
+	async saveAndEmbed(target: InsertTarget, kind: CaptureKind, data: Blob | ArrayBuffer, mime: string, date = new Date()): Promise<TFile> {
+		const file = await this.save(target.file.path, kind, data, mime, date);
 		const link = this.app.fileManager.generateMarkdownLink(file, target.file.path);
 		await target.insert(toEmbed(link));
 		return file;

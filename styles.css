@@ -403,6 +403,23 @@
 	padding: 14px 8px;
 }
 
+.lens-sheet-action-secondary {
+	padding: 10px 8px;
+	background: transparent;
+	box-shadow: none;
+	border: 1px solid var(--background-modifier-border);
+	color: var(--text-muted);
+}
+
+.lens-sheet-action-secondary .lens-sheet-action-icon svg {
+	width: 20px;
+	height: 20px;
+}
+
+.lens-sheet-action-secondary .lens-sheet-action-label {
+	font-weight: 500;
+}
+
 .lens-sheet-action-icon svg {
 	width: 32px;
 	height: 32px;

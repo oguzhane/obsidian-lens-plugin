@@ -82,6 +82,13 @@ export function captureKindForFile(name: string, type: string): "photo" | "video
 	return mimeForCapturedFile(name, "", "photo").startsWith("video/") ? "video" : "photo";
 }
 
+/** Whether a file picked from a generic file browser is a photo or video at all. */
+export function isMediaFile(name: string, type: string): boolean {
+	if (type.startsWith("image/") || type.startsWith("video/")) return true;
+	const ext = name.includes(".") ? name.slice(name.lastIndexOf(".") + 1).toLowerCase() : "";
+	return ext in MIME_BY_EXTENSION;
+}
+
 export function formatDuration(totalSeconds: number): string {
 	const s = Math.max(0, Math.floor(totalSeconds));
 	const h = Math.floor(s / 3600);
