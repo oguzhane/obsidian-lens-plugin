@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-lens-plugin",
-	"version": "0.3.0",
+	"version": "0.3.1",
 	"description": "In-app camera for Obsidian Android: capture photos and videos and embed them in the current note.",
 	"main": "main.js",
 	"type": "module",
